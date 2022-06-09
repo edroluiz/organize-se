@@ -1,0 +1,149 @@
+<div class="container py-5">
+  <div>
+    <h1>Olá,<br />bem-vindo(a) ao <strong>Organize-se!</strong></h1>
+    <div class="header">
+      <div class="text">
+        <h4 class="chamada">Muitas tarefas? Está se sentindo perdido?</h4>
+
+        <h5 class="apresentacao">
+          Com nossa plataforma você consegue administrar suas tarefas diárias e
+          facilitar sua rotina!
+        </h5>
+
+        <p class="explicacao">
+          Aqui você pode adicionar, editar e excluir suas tarefas.
+          <strong>Organize-se!</strong>
+        </p>
+      </div>
+      <img src="../assets/people.svg" alt="" width="250" />
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="adicionar">
+      <h2>{{ tarefa.id ? "Editar" : "Nova" }} Tarefa</h2>
+      <form (ngSubmit)="save()">
+        <div class="mb-3 form-floating">
+          <input
+            id="name"
+            type="text"
+            placeholder="O que você precisa fazer?"
+            name="name"
+            class="form-control"
+            [(ngModel)]="tarefa.name"
+          />
+          <label for="name"
+            >O que você precisa {{ tarefa.id ? "mudar" : "fazer" }}?</label
+          >
+        </div>
+        <div class="mb-3 form-check">
+          <input
+            id="filled"
+            type="checkbox"
+            placeholder="Nome"
+            name="filled"
+            class="form-check-input"
+            [(ngModel)]="tarefa.filled"
+          />
+          <label for="filled" class="form-check-label">Tarefa Concluída?</label>
+          <button class="btn btn-primary btn-lg save">Salvar</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="lista">
+      <h2>Lista de Tarefas</h2>
+
+      <!-- <div *ngFor="let tarefa of tarefas" class="card mb-3"></div> -->
+      <div class="card mb-3">
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="tarefas">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let tarefa of tarefas">
+                {{ tarefa.id }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Tarefa</th>
+              <td
+                class="name_tarefa"
+                mat-cell
+                *matCellDef="let tarefa of tarefas"
+              >
+                {{ tarefa.name }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status da tarefa</th>
+              <td mat-cell *matCellDef="let tarefa of tarefas">
+                {{ tarefa.filled ? "Concluído" : "Pendente" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+              <th mat-header-cell *matHeaderCellDef>Editar</th>
+              <td mat-cell *matCellDef="let tarefa of tarefas">
+                <li
+                  class="fa fa-edit cursor-pointer"
+                  (click)="edit(tarefa)"
+                ></li>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef>Excluir</th>
+              <td mat-cell *matCellDef="let tarefa of tarefas">
+                <li
+                  class="fa fa-trash ms-2 cursor-pointer"
+                  (click)="delete(tarefa)"
+                ></li>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+
+          <mat-paginator
+            #paginator
+            role="tarefas"
+            [length]="tarefas.length"
+            [pageSizeOptions]="[3, 5]"
+            aria-label="selected Page"
+          >
+          </mat-paginator>
+        </div>
+
+        <!-- <div class="card-body">
+
+          <div class="d-flex justify-content-between">
+            <div class="fw-bold">{{ tarefa.name }}</div>
+
+            <div class="text-muted">
+              <li class="fa fa-edit cursor-pointer" (click)="edit(tarefa)"></li>
+              <li
+                class="fa fa-trash ms-2 cursor-pointer"
+                (click)="delete(tarefa)"
+              ></li>
+            </div>
+          </div>
+
+          <div>
+            <small class="text-sucess" *ngIf="tarefa.filled; else noFilled">
+              <i class="fa fa-check-circle concluido"></i> Concluído
+            </small>
+
+            <ng-template #noFilled>
+              <small class="text-muted pendente">
+                <i class="fa fa-clock"></i> Pendente
+              </small>
+            </ng-template>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
