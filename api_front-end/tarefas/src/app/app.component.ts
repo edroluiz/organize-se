@@ -1,10 +1,6 @@
 import { AppService } from '../app/app.service';
-import { Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { DialogService } from './shared/dialog.service';
-
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-
 
 @Component({
   selector: 'app-root',
@@ -22,11 +18,11 @@ export class AppComponent implements OnInit {
     filled: false
   }
 
-  displayedColumns = ['id', 'name', 'status', 'edit', 'delete']
+  displayedColumns = ['id', 'name', 'status', 'edit', 'delete'];
 
   constructor(
     private appService: AppService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) { }
 
 
@@ -62,7 +58,7 @@ export class AppComponent implements OnInit {
   delete(tarefa: any) {
     // this.appService.delete(pedido.id).subscribe(() => this.getAll())
 
-    this.dialogService.openConfirmDialog('Lorem?')
+    this.dialogService.openConfirmDialog('Tem certeza que deseja excluir está tarefa?')
     .afterClosed().subscribe(res => {
       if(res){
         this.appService.delete(tarefa.id).subscribe(() => this.getAll())

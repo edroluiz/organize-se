@@ -55,13 +55,15 @@
       <h2>Lista de Tarefas</h2>
 
       <!-- <div *ngFor="let tarefa of tarefas" class="card mb-3"></div> -->
-      <div class="card mb-3">
+      <div class="bg-table">
         <div class="mat-elevation-z8">
           <table mat-table [dataSource]="tarefas">
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef>ID</th>
               <td mat-cell *matCellDef="let tarefa of tarefas">
-                {{ tarefa.id }}
+                <div class="id">
+                  {{ tarefa.id.slice(tarefa.id.length - 4) }}
+                </div>
               </td>
             </ng-container>
 
