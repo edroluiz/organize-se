@@ -1,0 +1,24 @@
+<app-nav-bar></app-nav-bar>
+<div class="bg-no-repeat bg-right-bottom" style="background-image: url('../assets/bg-home.svg');">
+  <div class="text-center flex justify-center h-screen items-center">
+    <div>
+      <h1 class="text-[#404EED] text-3xl font-bold mb-2.5">Olá, Pedro Luiz!</h1>
+      <p class="text-lg leading-6 text-[#313338]">Aqui você pode suas atividades diárias <br> para depois visualiza-las
+        na <strong>Área de Atividades.</strong></p>
+      <!-- <h1>{{ tarefa.id ? "Editar" : "Nova" }} Tarefa</h1> -->
+      <form (ngSubmit)="save()">
+        <div class="mt-6">
+          <input id="name" type="text" placeholder="Digite sua atividade *" name="name"
+            class="text-lg form-control h-12 border-[#313338] placeholder:text-[#313338] focus:border-[#404EED] shadow-none"
+            [(ngModel)]="tarefa.name" />
+        </div>
+        <div class="flex gap-[10px] mb-6 mt-2.5">
+          <input id="filled" type="checkbox" placeholder="Nome" name="filled"
+            class="form-check-input border-[#313338] shadow-none" [(ngModel)]="tarefa.filled" />
+          <label for="filled" class="text-[#313338]">É prioridade?</label>
+        </div>
+        <button class="bg-[#404EED] text-white w-full rounded h-10 font-medium text-lg">Salvar</button>
+      </form>
+    </div>
+  </div>
+</div>
