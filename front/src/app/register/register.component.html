@@ -1,0 +1,38 @@
+<app-nav-bar></app-nav-bar>
+<div class="bg-no-repeat bg-left-bottom" style="background-image: url('../assets/bg-cadastro.svg');">
+  <div class="text-center flex justify-center h-screen items-center">
+    <div>
+      <h1 class="text-[#404EED] text-3xl font-bold mb-2.5">Cadastre-se no Organize-se</h1>
+      <p class="text-lg leading-6 text-[#313338]">Crie sua conta e organize sua rotina!</p>
+      <form>
+        <div class="mt-6">
+          <input id="username" type="text" placeholder="Digite um nome de usuário *" name="username"
+            class="text-lg form-control h-12 border-[#313338] placeholder:text-[#313338] focus:border-[#404EED] shadow-none"
+            [(ngModel)]="username" required />
+        </div>
+        <div class="mt-6">
+          <input id="password" type="password" placeholder="Digite uma senha *" name="password"
+            class="text-lg form-control h-12 border-[#313338] placeholder:text-[#313338] focus:border-[#404EED] shadow-none"
+            [(ngModel)]="password" required />
+        </div>
+        <div class="mt-6">
+          <input id="confirmPassword" type="password" placeholder="Digite sua senha novamente *" name="confirmPassword"
+            class="text-lg form-control h-12 border-[#313338] placeholder:text-[#313338] focus:border-[#404EED] shadow-none"
+            [(ngModel)]="confirmPassword" required />
+        </div>
+        <p class="mt-2 text-sm text-[#B9BBBE] font-normal text-right">Já possui uma conta? <a routerLink="/login"
+            class="text-[#404EED] underline decoration-1">Entrar</a></p>
+        <button class="bg-[#404EED] text-white w-full rounded h-10 font-medium text-lg mt-6"
+          (click)="register()">Cadastrar</button>
+
+        <div *ngIf="registrationFailedConfirmPassword" class="mt-4 p-4 bg-red-500 text-white rounded w-96 mx-auto  font-medium text-lg">
+          As senhas precisam ser iguais.
+        </div>
+        <div *ngIf="registrationFailed" class="mt-4 p-4 bg-[#EF4444] text-white rounded w-96 mx-auto  font-medium text-lg">
+          Já existe uma conta cadastrada com esse nome de usuário.
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

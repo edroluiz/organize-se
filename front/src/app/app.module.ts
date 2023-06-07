@@ -26,6 +26,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -34,7 +37,9 @@ import { HomeComponent } from './home/home.component';
     PopUpComponent,
     NavBarComponent,
     TasksComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent,
+    RegisterComponent
    ],
   imports: [
     BrowserModule,
@@ -51,10 +56,11 @@ import { HomeComponent } from './home/home.component';
     MatSidenavModule,
     MatListModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
   ],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
+    CookieService
   ],
   bootstrap: [AppComponent],
   entryComponents: [PopUpComponent]

@@ -1,6 +1,8 @@
+import { AuthService } from '../auth.service';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { DialogService } from '../shared/dialog.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +21,12 @@ export class HomeComponent implements OnInit {
 
   displayedColumns = ['id', 'name', 'status', 'edit', 'delete'];
 
+  nomeUsuario: string = '';
+
   constructor(
     private appService: AppService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private authService: AuthService
   ) { }
 
 
@@ -29,6 +34,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
+    this.nomeUsuario = this.authService.getUsername();
   }
 
   getAll() {
@@ -50,13 +56,11 @@ export class HomeComponent implements OnInit {
 
   edit(tarefa: any) {
     this.tarefa = {
-      ...tarefa //Arruma o bug de edição imediata
+      ...tarefa
     }
   }
 
   delete(tarefa: any) {
-    // this.appService.delete(pedido.id).subscribe(() => this.getAll())
-
     this.dialogService.openConfirmDialog('Tem certeza que deseja excluir está tarefa?')
     .afterClosed().subscribe(res => {
       if(res){

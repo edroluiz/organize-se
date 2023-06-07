@@ -2,10 +2,9 @@
 <div class="bg-no-repeat bg-right-bottom" style="background-image: url('../assets/bg-home.svg');">
   <div class="text-center flex justify-center h-screen items-center">
     <div>
-      <h1 class="text-[#404EED] text-3xl font-bold mb-2.5">Olá, Pedro Luiz!</h1>
+      <h1 class="text-[#404EED] text-3xl font-bold mb-2.5">Olá, {{ nomeUsuario }}</h1>
       <p class="text-lg leading-6 text-[#313338]">Aqui você pode suas atividades diárias <br> para depois visualiza-las
         na <strong>Área de Atividades.</strong></p>
-      <!-- <h1>{{ tarefa.id ? "Editar" : "Nova" }} Tarefa</h1> -->
       <form (ngSubmit)="save()">
         <div class="mt-6">
           <input id="name" type="text" placeholder="Digite sua atividade *" name="name"

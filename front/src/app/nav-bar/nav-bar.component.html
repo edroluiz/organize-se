@@ -1,22 +1,25 @@
 <nav class="bg-white fixed w-full z-20 top-0 left-0 border-b border-[#E5E5E5]">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
     <div class="flex items-center">
-      <a href="/home">
-        <img src="/src/assets/logo.svg" class="h-8 mr-3" alt="Logo">
+      <a>
+        <img src="../assets/logo.svg" class="h-10 mr-3 my-8" alt="Logo">
       </a>
-      <div class="items-center justify-between hidden w-full md:flex md:w-auto " id="navbar-sticky">
+      <div *ngIf="isLoggedIn" class="items-center justify-between hidden w-full md:flex md:w-auto " id="navbar-sticky">
         <ul class="flex flex-col p-4 font-medium md:flex-row md:space-x-8">
           <li>
-            <a href="#" class="text-[#313338]" aria-current="page">Home</a>
+            <a routerLink="/home"  [class.text-[#404EED]]="currentRoute === '/home'"class="text-[#313338] font-bold text-lg hover:text-[#404EED]" aria-current="page">Home</a>
           </li>
           <li>
-            <a routerLink="/minhasAtividades" class="text-[#313338]">Minhas Atividades</a>
+            <a routerLink="/minhasAtividades" [class.text-[#404EED]]="currentRoute === '/minhasAtividades'" class="text-[#313338] font-bold text-lg hover:text-[#404EED]">Minhas Atividades</a>
           </li>
         </ul>
       </div>
+      <div *ngIf="!isLoggedIn">
+      </div>
     </div>
     <div class="flex">
-      <button type="button" class="bg-[#404EED] text-white w-24 rounded h-8 font-medium text-lg">Sair</button>
+      <button *ngIf="isLoggedIn" routerLink="/login" type="button"
+        class="bg-[#404EED] text-white w-24 rounded h-8 font-medium text-lg" (click)="logout()">Sair</button>
     </div>
   </div>
 </nav>

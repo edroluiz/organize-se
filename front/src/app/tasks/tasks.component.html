@@ -1,5 +1,4 @@
 <app-nav-bar></app-nav-bar>
-
 <div class="mt-56 max-w-screen-lg mx-auto">
   <h1 class="text-[#404EED] text-3xl font-bold mb-2.5">Área de Atividades</h1>
   <p class="text-lg leading-6 text-[#313338]">Aqui você pode gerenciar suas atividades diárias, escolhendo entre
@@ -19,14 +18,12 @@
               [size]="tarefa.name.length" (keydown.enter)="saveEdit(tarefa)" (keydown.escape)="cancelEdit(tarefa)"
               style="outline: none;">
           </ng-template>
-
         </div>
         <div>
-          <span>{{ tarefa.filled ? 'Prioridade!' : 'Não é prioridade!' }}</span>
+          <span [ngClass]="{ 'text-[#404EED]': tarefa.filled, 'text-[#B9BBBE]': !tarefa.filled }">{{ tarefa.filled ? 'Prioridade!' : 'Não é prioridade!' }}</span>
         </div>
         <ng-container *ngIf="tarefa.editingName">
-          <button (click)="edit(tarefa)" class="mt-2 underline decoration-1 font-bold text-[#404EED]">Salvar
-            Alteração</button>
+          <button (click)="edit(tarefa)" class="mt-2 underline decoration-1 font-bold text-[#404EED]">Salvar Alteração</button>
         </ng-container>
       </div>
       <div class="">
