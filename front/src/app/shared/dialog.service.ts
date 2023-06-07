@@ -1,6 +1,7 @@
 import { PopUpComponent } from './../pop-up/pop-up.component';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PopUpCongratulationsComponent } from '../pop-up-congratulations/pop-up-congratulations.component';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,17 @@ export class DialogService {
       data : {
         message: msg
       }
+    });
+  }
+
+  openCongrutulationsDialog(msg: string) {
+    return this.dialog.open(PopUpCongratulationsComponent, {
+      width: '500px',
+      panelClass: 'congrutulations-dialog-container',
+      disableClose: true,
+      data : {
+        message: msg,
+      },
     });
   }
 }

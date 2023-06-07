@@ -68,7 +68,7 @@ export class TasksComponent implements OnInit {
   }
 
   taskCompleted(tarefa: any) {
-    this.dialogService.openConfirmDialog('Parabéns, por mais tarefa conluída!')
+    this.dialogService.openCongrutulationsDialog('Parabéns por finalizar essa tarefa! Continue assim!')
       .afterClosed().subscribe(res => {
         if (res) {
           this.appService.delete(tarefa.id).subscribe(() => {
@@ -115,7 +115,7 @@ export class TasksComponent implements OnInit {
     if (tarefa.concluida) {
       setTimeout(() => {
         this.taskCompleted(tarefa);
-      }, 3000);
+      });
     }
   }
 }

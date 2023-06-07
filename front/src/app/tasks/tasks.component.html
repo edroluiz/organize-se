@@ -9,23 +9,27 @@
     <li class="list-group-item border-1 border-[#E5E5E5] mt-6 rounded px-3 py-3 flex justify-between items-center"
       *ngFor="let tarefa of tarefas | slice: (paginator.pageIndex * paginator.pageSize):(paginator.pageIndex + 1) * paginator.pageSize">
       <div class="">
-        <div class="d-flex justify-content-between align-items-center">
-          <input type="checkbox" [(ngModel)]="tarefa.concluida" (change)="taskCompletedTime(tarefa)" class="mr-2">
-          <ng-container *ngIf="!tarefa.editingName; else editNameTemplate">
-            <span class="text-xl text-[#181818] font-medium">{{ tarefa.name }}</span>
-          </ng-container>
-          <ng-template #editNameTemplate>
-            <input class="text-xl border-b-2 border-[#E5E5E5] mb-2" type="text" [(ngModel)]="tarefa.name"
-              [size]="tarefa.name.length" (keydown.enter)="saveEdit(tarefa)" (keydown.escape)="cancelEdit(tarefa)"
-              style="outline: none;">
-          </ng-template>
+        <div class="flex gap-2 align-items items-center">
+          <input type="checkbox" [(ngModel)]="tarefa.concluida" (change)="taskCompletedTime(tarefa)"
+            class="mr-2 w-6 h-6 rounded border-2 border-[#E5E5E5] custom-checkbox">
+          <div class="d-flex justify-content-between align-items-left flex-col">
+            <ng-container *ngIf="!tarefa.editingName; else editNameTemplate">
+              <span class="text-xl text-[#181818] font-medium">{{ tarefa.name }}</span>
+            </ng-container>
+            <ng-template #editNameTemplate>
+              <input class="text-xl border-b-2 border-[#E5E5E5] mb-2" type="text" [(ngModel)]="tarefa.name"
+                [size]="tarefa.name.length" (keydown.enter)="saveEdit(tarefa)" (keydown.escape)="cancelEdit(tarefa)"
+                style="outline: none;">
+            </ng-template>
+            <span [ngClass]="{ 'text-[#404EED]': tarefa.filled, 'text-[#B9BBBE]': !tarefa.filled }">{{ tarefa.filled ?
+              'Prioridade!' : 'Não é prioridade!' }}</span>
+              <ng-container *ngIf="tarefa.editingName">
+                <button (click)="edit(tarefa)" class="mt-2 underline decoration-1 font-bold text-[#404EED] text-left">Salvar
+                  Alteração</button>
+              </ng-container>
+          </div>
         </div>
-        <div>
-          <span [ngClass]="{ 'text-[#404EED]': tarefa.filled, 'text-[#B9BBBE]': !tarefa.filled }">{{ tarefa.filled ? 'Prioridade!' : 'Não é prioridade!' }}</span>
-        </div>
-        <ng-container *ngIf="tarefa.editingName">
-          <button (click)="edit(tarefa)" class="mt-2 underline decoration-1 font-bold text-[#404EED]">Salvar Alteração</button>
-        </ng-container>
+
       </div>
       <div class="">
         <span (click)="toggleEditName(tarefa)">

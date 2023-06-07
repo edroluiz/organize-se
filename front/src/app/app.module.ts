@@ -29,6 +29,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { CookieService } from 'ngx-cookie-service';
+import { PopUpCongratulationsComponent } from './pop-up-congratulations/pop-up-congratulations.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { CookieService } from 'ngx-cookie-service';
     TasksComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    PopUpCongratulationsComponent
    ],
   imports: [
     BrowserModule,
