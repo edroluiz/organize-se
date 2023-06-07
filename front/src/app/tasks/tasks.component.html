@@ -10,6 +10,7 @@
       *ngFor="let tarefa of tarefas | slice: (paginator.pageIndex * paginator.pageSize):(paginator.pageIndex + 1) * paginator.pageSize">
       <div class="">
         <div class="d-flex justify-content-between align-items-center">
+          <input type="checkbox" [(ngModel)]="tarefa.concluida" (change)="taskCompletedTime(tarefa)" class="mr-2">
           <ng-container *ngIf="!tarefa.editingName; else editNameTemplate">
             <span class="text-xl text-[#181818] font-medium">{{ tarefa.name }}</span>
           </ng-container>

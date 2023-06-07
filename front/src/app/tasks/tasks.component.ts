@@ -67,6 +67,18 @@ export class TasksComponent implements OnInit {
       });
   }
 
+  taskCompleted(tarefa: any) {
+    this.dialogService.openConfirmDialog('Parabéns, por mais tarefa conluída!')
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.appService.delete(tarefa.id).subscribe(() => {
+            this.getAll();
+            this.clearForm();
+          });
+        }
+      });
+  }
+
   toggleEditName(tarefa: any) {
     tarefa.editingName = !tarefa.editingName;
   }
@@ -97,5 +109,13 @@ export class TasksComponent implements OnInit {
       name: '',
       filled: false
     };
+  }
+
+  taskCompletedTime(tarefa: any) {
+    if (tarefa.concluida) {
+      setTimeout(() => {
+        this.taskCompleted(tarefa);
+      }, 3000);
+    }
   }
 }
