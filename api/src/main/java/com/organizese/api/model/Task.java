@@ -4,14 +4,23 @@ import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Tarefas {
+public class Task {
+
+
     @Id
     private String id;
     private String name;
     private boolean filled;
 
-    public Tarefas() {
+    public Task(String id, String name, boolean filled) {
+        this.id = id;
+        this.name = name;
+        this.filled = filled;
     }
+
+    public Task() {
+    }
+
 
     public String getId() {
         return this.id;
@@ -40,10 +49,10 @@ public class Tarefas {
     public boolean equals(final Object o) {
         if (o == this) {
             return true;
-        } else if (!(o instanceof Tarefas)) {
+        } else if (!(o instanceof Task)) {
             return false;
         } else {
-            Tarefas other = (Tarefas)o;
+            Task other = (Task) o;
             if (!other.canEqual(this)) {
                 return false;
             } else if (this.isFilled() != other.isFilled()) {
@@ -75,7 +84,7 @@ public class Tarefas {
     }
 
     protected boolean canEqual(final Object other) {
-        return other instanceof Tarefas;
+        return other instanceof Task;
     }
 
     public int hashCode() {

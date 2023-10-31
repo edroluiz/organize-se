@@ -1,46 +1,43 @@
 package com.organizese.api.controller;
 
-import com.organizese.api.model.Tarefas;
-import com.organizese.api.repository.Repository;
+import com.organizese.api.model.Task;
+import com.organizese.api.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping({"/api"})
+@RequestMapping("/api/task")
 public class Controller {
 
+    private final TaskService taskService;
+
     @Autowired
-    private Repository Repository;
-
-    public Controller() {
+    public Controller(TaskService taskService) {
+        this.taskService = taskService;
     }
 
-    @GetMapping({""})
-    List<Tarefas> index() {
-        return this.Repository.findAll();
+    @GetMapping
+    public ResponseEntity<List<Task>> index() {
+        return new ResponseEntity<List<Task>>(taskService.getAllTasks(), HttpStatus.OK);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping({""})
-    Tarefas create(@RequestBody Tarefas tarefas) {
-        return (Tarefas)this.Repository.save(tarefas);
+    @PostMapping
+    public ResponseEntity<Task> create(@RequestBody Task task) {
+        return new ResponseEntity<Task>(taskService.createTask(task), HttpStatus.CREATED);
     }
 
-    @PutMapping({"{id}"})
-    Tarefas update(@PathVariable String id, @RequestBody Tarefas tarefas) {
-        Tarefas tarefasFromDb = (Tarefas)this.Repository.findById(id).orElseThrow(RuntimeException::new);
-        tarefasFromDb.setName(tarefas.getName());
-        tarefasFromDb.setFilled(tarefas.isFilled());
-        return (Tarefas)this.Repository.save(tarefasFromDb);
+    @PutMapping("{id}")
+    public ResponseEntity<Task> update(@PathVariable String id, @RequestBody Task task) {
+        return new ResponseEntity<Task>(taskService.updateTask(id, task), HttpStatus.OK);
     }
 
-    @DeleteMapping({"{id}"})
-    void delete(@PathVariable String id) {
-        Tarefas tarefas = (Tarefas)this.Repository.findById(id).orElseThrow(RuntimeException::new);
-        this.Repository.delete(tarefas);
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable String id) {
+        taskService.deleteTask(id);
     }
 }

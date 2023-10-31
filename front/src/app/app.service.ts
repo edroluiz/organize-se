@@ -11,18 +11,18 @@ export class AppService {
   constructor( private http: HttpClient ) { }
 
   getAll() {
-    return this.http.get(`${api}/api`);
+    return this.http.get(`${api}/api/task`);
   }
 
   create(tarefa: any) {
-    return this.http.post(`${api}/api`, tarefa);
+    return this.http.post(`${api}/api/task`, tarefa);
   }
 
   update(id: string, tarefa: any) {
-    return this.http.put(`${api}/api/${id}`, tarefa);
+    return this.http.put(`${api}/api/task/${id}`, tarefa);
   }
 
   delete(id: string) {
-    return this.http.delete(`${api}/api/${id}`);
+    return this.http.delete(`${api}/api/task/${id}`);
   }
 }

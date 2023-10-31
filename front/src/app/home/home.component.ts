@@ -42,15 +42,17 @@ export class HomeComponent implements OnInit {
   }
 
   save() {
-    if (this.tarefa.id) {
-      this.appService.update(this.tarefa.id!, this.tarefa).subscribe(() => this.getAll())
-    } else {
-      this.appService.create(this.tarefa).subscribe(() => this.getAll())
-    }
-    this.tarefa = {
-      id: null,
-      name: '',
-      filled: false
+    if (this.tarefa.name.trim() !== '') {
+      if (this.tarefa.id) {
+        this.appService.update(this.tarefa.id!, this.tarefa).subscribe(() => this.getAll())
+      } else {
+        this.appService.create(this.tarefa).subscribe(() => this.getAll())
+      }
+      this.tarefa = {
+        id: null,
+        name: '',
+        filled: false
+      }
     }
   }
 
