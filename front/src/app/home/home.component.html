@@ -3,7 +3,7 @@
   <div class="text-center flex justify-center h-screen items-center">
     <div>
       <h1 class="text-[#404EED] text-3xl font-bold mb-2.5">Olá, {{ nomeUsuario }}</h1>
-      <p class="text-lg leading-6 text-[#313338]">Aqui você pode suas atividades diárias <br> para depois visualiza-las
+      <p class="text-lg leading-6 text-[#313338]">Aqui você pode criar suas atividades diárias <br> para depois visualiza-las
         na <strong>Área de Atividades.</strong></p>
       <form (ngSubmit)="save()">
         <div class="mt-6">
@@ -18,6 +18,7 @@
         </div>
         <button class="bg-[#404EED] text-white w-full rounded h-10 font-medium text-lg">Salvar</button>
       </form>
+      <div *ngIf="taskEmpty == true" class="mt-4 p-4 bg-[#EF4444] text-white rounded font-medium text-lg w-96 mx-auto">Você não pode cadastrar uma atividade vazia.</div>
     </div>
   </div>
 </div>

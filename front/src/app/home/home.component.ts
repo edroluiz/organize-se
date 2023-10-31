@@ -23,6 +23,8 @@ export class HomeComponent implements OnInit {
 
   nomeUsuario: string = '';
 
+  taskEmpty: boolean = false;
+
   constructor(
     private appService: AppService,
     private dialogService: DialogService,
@@ -42,7 +44,11 @@ export class HomeComponent implements OnInit {
   }
 
   save() {
+    if (this.tarefa.name.trim() === '') {
+      this.taskEmpty = true;
+    }
     if (this.tarefa.name.trim() !== '') {
+      this.taskEmpty = false;
       if (this.tarefa.id) {
         this.appService.update(this.tarefa.id!, this.tarefa).subscribe(() => this.getAll())
       } else {
