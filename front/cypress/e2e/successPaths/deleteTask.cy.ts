@@ -1,5 +1,5 @@
-describe('Create task successfully', () => {
-  it('Atividade criada com sucesso', () => {
+describe('Delete task', () => {
+  it('Atividade excluída com sucesso', () => {
     // Register
     cy.visit('http://localhost:4200/cadastro');
     cy.get('#username').type('admin');
@@ -15,13 +15,13 @@ describe('Create task successfully', () => {
     cy.get('button').contains('Entrar').click();
     cy.url().should('eq', 'http://localhost:4200/home');
 
-    // User Name
-    cy.visit('http://localhost:4200/home');
-    cy.contains('Olá, admin');
-
-    // Task
-    cy.get('#name').type('Terminar os testes de unidade do backend');
-    cy.get('#filled').check();
-    cy.get('button').contains('Salvar').click();
+    // Delete task
+    cy.visit('http://localhost:4200/minhasAtividades');
+    cy.get('.list-group-item').first().as('tarefa');
+    cy.get('@tarefa').find('.text-xl').invoke('text').as('textoAntesDaExclusao');
+    cy.get('@tarefa').find('svg[viewBox="0 0 20 20"]').last().click();
+    cy.get('.mat-icon#close-icon').should('be.visible');
+    cy.get('.mat-flat-button#yes-button').click();
+    cy.get('@tarefa').should('not.be.visible');
   });
 });
