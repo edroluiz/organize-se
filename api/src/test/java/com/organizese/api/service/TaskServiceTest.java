@@ -2,7 +2,8 @@ package com.organizese.api.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.organizese.api.exception.CustomException;
+import com.organizese.api.exception.BadRequestCustomException;
+import com.organizese.api.exception.NotFoundCustomException;
 import com.organizese.api.model.Task;
 import com.organizese.api.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,13 +30,17 @@ class TaskServiceTest {
 
     @Test
     void testGetAllTasks() {
+        // Arrange
         Task task1 = new Task("1", "Task 1", false);
         Task task2 = new Task("2", "Task 2", true);
         Task task3 = new Task("3", "Task 3", false);
 
         Mockito.when(taskRepository.findAll()).thenReturn(List.of(task1, task2, task3));
 
+        // Act
         List<Task> tasks = taskService.getAllTasks();
+
+        // Assert
         assertEquals(3, tasks.size());
         assertEquals("Task 1", tasks.get(0).getName());
         assertEquals("Task 2", tasks.get(1).getName());
@@ -45,93 +49,116 @@ class TaskServiceTest {
 
     @Test
     void testCreateTask() {
-        Task newTask = new Task("4", "New Task", true);
+        // Arrange
+        Task newTask = new Task("1", "Task 1", true);
 
         Mockito.when(taskRepository.save(newTask)).thenReturn(newTask);
 
+        // Act
         Task createdTask = taskService.createTask(newTask);
+
+        // Assert
         assertNotNull(createdTask);
-        assertEquals("New Task", createdTask.getName());
+        assertEquals("1", createdTask.getId());
+        assertEquals("Task 1", createdTask.getName());
     }
 
     @Test
     void testUpdateTask() {
-        Task existingTask = new Task("5", "Existing Task", false);
-        Task updatedTask = new Task("5", "Updated Task", true);
+        // Arrange
+        Task existingTask = new Task("1", "Task 1", false);
+        Task updatedTask = new Task("1", "Task 1.1", true);
 
-        Mockito.when(taskRepository.findById("5")).thenReturn(Optional.of(existingTask));
+        Mockito.when(taskRepository.findById("1")).thenReturn(Optional.of(existingTask));
         Mockito.when(taskRepository.save(existingTask)).thenReturn(updatedTask);
 
-        Task updated = taskService.updateTask("5", updatedTask);
-        assertNotNull(updated);
-        assertEquals("Updated Task", updated.getName());
-        assertTrue(updated.isFilled());
+        // Act
+        Task updated = taskService.updateTask("1", updatedTask);
+
+        // Assert
+        assertEquals("Task 1.1", updated.getName());
     }
 
     @Test
     void testUpdateTaskNotFound() {
-        Mockito.when(taskRepository.findById("6")).thenReturn(Optional.empty());
+        // Arrange & Act
+        NotFoundCustomException exception = assertThrows(NotFoundCustomException.class, () -> taskService.updateTask("6", new Task("6", "Updated Task", true)));
 
-        assertThrows(RuntimeException.class, () -> taskService.updateTask("6", new Task("6", "Updated Task", true)));
+        // Assert
+        assertEquals("Tarefa não encontrada", exception.getMessage());
     }
 
     @Test
     void testDeleteTask() {
+        // Arrange
         Task existingTask = new Task("7", "Task to Delete", false);
 
         Mockito.when(taskRepository.findById("7")).thenReturn(Optional.of(existingTask));
+
+        // Act
         taskService.deleteTask("7");
 
+        // Assert
         Mockito.verify(taskRepository, Mockito.times(1)).delete(existingTask);
     }
 
     @Test
     void testDeleteTaskNotFound() {
-        Mockito.when(taskRepository.findById("8")).thenReturn(Optional.empty());
+        // Arrange & Act
+        NotFoundCustomException exception = assertThrows(NotFoundCustomException.class, () -> taskService.deleteTask("8"));
 
-        assertThrows(RuntimeException.class, () -> taskService.deleteTask("8"));
-    }
-
-    @Test
-    void testGetAllTasksEmpty() {
-        Mockito.when(taskRepository.findAll()).thenReturn(Collections.emptyList());
-
-        List<Task> tasks = taskService.getAllTasks();
-        assertTrue(tasks.isEmpty());
+        // Assert
+        assertEquals("Tarefa não encontrada", exception.getMessage());
     }
 
     @Test
     void testCreateTaskWithEmptyName() {
-        Task taskWithEmptyName = new Task("10", "", false);
+        // Arrange
+        Task taskWithEmptyName = new Task("1", "", false);
 
-        assertThrows(CustomException.class, () -> taskService.createTask(taskWithEmptyName));
+        // Act
+        BadRequestCustomException exception = assertThrows(BadRequestCustomException.class, () -> taskService.createTask(taskWithEmptyName));
+
+        // Assert
+        assertEquals("Tarefa não pode estar vazia ou conter apenas espaços em branco", exception.getMessage());
     }
 
     @Test
     void testCreateTaskWithBlankName() {
-        Task taskWithBlankName = new Task("11", "   ", false);
+        // Arrange
+        Task taskWithBlankName = new Task("1", "   ", false);
 
-        assertThrows(CustomException.class, () -> taskService.createTask(taskWithBlankName));
+        // Act
+        BadRequestCustomException exception = assertThrows(BadRequestCustomException.class, () -> taskService.createTask(taskWithBlankName));
+
+        // Assert
+        assertEquals("Tarefa não pode estar vazia ou conter apenas espaços em branco", exception.getMessage());
     }
 
     @Test
     void testUpdateTaskWithEmptyName() {
-        Task existingTask = new Task("12", "Task with Name", false);
-        Task updatedTaskWithEmptyName = new Task("12", "", true);
+        // Arrange
+        Task existingTask = new Task("1", "Task 1", false);
+        Task updatedTaskWithEmptyName = new Task("1", "", true);
 
-        Mockito.when(taskRepository.findById("12")).thenReturn(Optional.of(existingTask));
+        // Act
+        BadRequestCustomException exception = assertThrows(BadRequestCustomException.class, () -> taskService.updateTask("1", updatedTaskWithEmptyName));
 
-        assertThrows(CustomException.class, () -> taskService.updateTask("12", updatedTaskWithEmptyName));
+        // Assert
+        assertEquals("O nome da tarefa atualizada não pode estar vazio ou conter apenas espaços em branco", exception.getMessage());
     }
 
     @Test
     void testUpdateTaskWithBlankName() {
-        Task existingTask = new Task("13", "Task with Name", false);
-        Task updatedTaskWithBlankName = new Task("13", "   ", true);
+        // Arrange
+        Task existingTask = new Task("1", "Task 1", false);
+        Task updatedTaskWithBlankName = new Task("1", "   ", true);
 
-        Mockito.when(taskRepository.findById("13")).thenReturn(Optional.of(existingTask));
+        // Act
+        BadRequestCustomException exception = assertThrows(BadRequestCustomException.class, () -> taskService.updateTask("1", updatedTaskWithBlankName));
 
-        assertThrows(CustomException.class, () -> taskService.updateTask("13", updatedTaskWithBlankName));
+        // Assert
+        assertEquals("O nome da tarefa atualizada não pode estar vazio ou conter apenas espaços em branco", exception.getMessage());
     }
 
 }

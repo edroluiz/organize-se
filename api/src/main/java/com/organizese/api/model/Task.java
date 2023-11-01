@@ -18,6 +18,11 @@ public class Task {
         this.filled = filled;
     }
 
+    public Task(String name, boolean filled) {
+        this.name = name;
+        this.filled = filled;
+    }
+
     public Task() {
     }
 

@@ -1,7 +1,5 @@
 describe('Teste Completo', () => {
   it('Executa todas as ações', () => {
-    // Limpar dados de teste (se necessário).
-
     // Registro de usuário.
     cy.visit('http://localhost:4200/cadastro');
     cy.get('#username').type('admin');
