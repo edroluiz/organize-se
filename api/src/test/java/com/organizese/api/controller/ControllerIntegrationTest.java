@@ -101,7 +101,7 @@ public class ControllerIntegrationTest {
         Task updatedTask = new Task("", true);
         HttpEntity<Task> request = new HttpEntity<>(updatedTask);
 
-        ResponseEntity<Task> response = restTemplate.exchange(baseUrl + "/" + "1", HttpMethod.PUT, request, Task.class);
+        ResponseEntity<Task> response = restTemplate.exchange(baseUrl + "/" + "6541a4c5f5654e2e58c1c724", HttpMethod.PUT, request, Task.class);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
